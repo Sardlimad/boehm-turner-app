@@ -37,7 +37,7 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   width: 20%;
   padding: 5px;
-  position: static;
+  position: relative;
 }
 
 h1 {
@@ -76,7 +76,7 @@ body.dark-theme hr {
   padding: 8px;
   color: white;
   background-color: rgb(5, 164, 237);
-  margin: 0px 10px 10px 10px;
+  margin: 0px 10px 30px 10px;
   border-radius: 5px;
 }
 
@@ -332,9 +332,13 @@ body.dark-theme span {
 
 .author {
   font-size: 12px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+  position: absolute;
+  top: 95%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  /* width: 90%; */
 }
 
 .author a {
@@ -342,12 +346,16 @@ body.dark-theme span {
   color: #1090df;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 720px) {
   .super-container {
     flex-direction: column;
   }
 
   .slider-container {
     width: auto;
+  }
+
+  .download-button {
+    padding: 20px 8px;
   }
 }
