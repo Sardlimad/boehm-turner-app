@@ -27,10 +27,10 @@ function App() {
   const data = {
     labels: [
       "Staff Experience",
-      "Project Dynamism",
+      "Dynamism",
       "Team Culture",
       "Team Size",
-      "Project Criticality",
+      "Criticality",
     ],
     datasets: [
       {
