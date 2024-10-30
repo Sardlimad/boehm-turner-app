@@ -15,11 +15,11 @@ export const ToggleTheme = () => {
     <div>
       <input
         type="checkbox"
-        class="checkbox"
-        id="checkbox"
+        class="toggle-button theme-toggle-button"
+        id="theme-button"
         onClick={handleTheme}
       />
-      <label for="checkbox" class="checkbox-label">
+      <label for="theme-button" class="theme-button-label">
         <i class="fas fa-sun"></i>
         <i class="fas fa-moon"></i>
         <span class="ball"></span>
