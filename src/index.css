@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+:root {
+  --primary: rgb(54, 162, 235);
+  --secondary: rgb(29, 53, 87);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -43,7 +49,7 @@
 h1 {
   font-size: 24px;
   font-weight: 700;
-  color: #1d3557;
+  color: var(--secondary);
   margin: 20px;
   text-align: center;
 }
@@ -75,13 +81,13 @@ body.dark-theme hr {
   border: 0;
   padding: 8px;
   color: white;
-  background-color: rgb(5, 164, 237);
+  background-color: var(--primary);
   margin: 0px 10px 30px 10px;
   border-radius: 5px;
 }
 
 .download-button:hover {
-  background-color: rgb(6, 125, 181);
+  background-color: var(--primary);
 }
 
 .options-range {
@@ -99,26 +105,11 @@ input[type="range"] {
   flex: 2;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background-color: #1d3557;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background-color 0.2s ease-in-out;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  background-color: #457b9d;
-}
-
 /* Valor del slider */
 span {
   flex: 0.5;
   font-size: 14px;
-  color: #1d3557;
+  color: var(--secondary);
 }
 
 /* Estilo del gráfico */
@@ -178,7 +169,7 @@ span {
 }
 
 /* Botón de tema */
-.theme-toggle-button {
+/* .theme-toggle-button {
   margin-top: 20px;
   margin-right: 20px;
   padding: 10px 20px;
@@ -189,11 +180,11 @@ span {
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: absolute;
-  top: 0;
+  top: 20px;
   right: 0;
-}
+} */
 
-.theme-toggle-button:hover {
+/* .theme-toggle-button:hover {
   background-color: #457b9d;
 }
 
@@ -204,7 +195,7 @@ body.dark-theme .theme-toggle-button {
 
 body.dark-theme .theme-toggle-button:hover {
   background-color: #ddd;
-}
+} */
 
 body {
   font-family: "Montserrat", sans-serif;
@@ -219,11 +210,11 @@ body {
   transition: background 0.2s linear;
 }
 
-.checkbox {
+.theme-toggle-button {
   display: none;
 }
 
-.checkbox-label {
+.theme-button-label {
   background-color: #111;
   width: 50px;
   height: 26px;
@@ -247,7 +238,7 @@ body {
   color: #f39c12;
 }
 
-.checkbox-label .ball {
+.theme-button-label .ball {
   background-color: #fff;
   width: 22px;
   height: 22px;
@@ -258,7 +249,7 @@ body {
   transition: transform 0.2s linear;
 }
 
-.checkbox:checked + .checkbox-label .ball {
+.theme-toggle-button:checked + .theme-button-label .ball {
   transform: translateX(24px);
 }
 
@@ -330,6 +321,54 @@ body.dark-theme span {
   color: #f4f4f9; /* Cambia el color del texto de valores en tema oscuro */
 }
 
+/* Contenedor del toggle */
+.toggle-container {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background-color: #ddd;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Checkbox oculto */
+.toggle-checkbox {
+  opacity: 1;
+  position: absolute;
+  display: none;
+}
+
+/* Bola dentro del toggle */
+.toggle-ball {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estado activado del toggle */
+.toggle-checkbox:checked + .toggle-container {
+  background-color: var(--primary);
+}
+
+/* Movimiento de la bola al activar */
+.toggle-checkbox:checked + .toggle-container .toggle-ball {
+  transform: translateX(24px);
+}
+
+.options-item {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 15px;
+  line-height: 2;
+}
+
 .author {
   font-size: 12px;
   position: absolute;
@@ -346,6 +385,15 @@ body.dark-theme span {
   color: #1090df;
 }
 
+.radar {
+  width: min-content;
+}
+
+.radar-options {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 720px) {
   .super-container {
     flex-direction: column;
@@ -353,6 +401,7 @@ body.dark-theme span {
 
   .slider-container {
     width: auto;
+    /* background-color: #b0b3b4; */
   }
 
   .download-button {

@@ -5,6 +5,9 @@ import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { ToggleTheme } from "./components/ToggleTheme";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
+import * as echarts from "echarts";
+import RadarChart from "./components/Radar";
+import { RadarD3 } from "./components/RadarD3";
 
 function App() {
   //Referencia al gráfico
@@ -16,6 +19,9 @@ function App() {
   const [staffExperience, setStaffExperience] = useState(30);
   const [projectDynamism, setProjectDynamism] = useState(30);
   const [projectCriticality, setProjectCriticality] = useState(10);
+
+  //Opciones del gráfico
+  const [grid, setGrid] = useState(false);
 
   // Data del gráfico
   const data = {
@@ -63,6 +69,8 @@ function App() {
       {/* Cambio de tema */}
       <ToggleTheme />
 
+      {/* <RadarD3 /> */}
+
       <div className="super-container">
         {/* Gráfico*/}
         <div className="container radar-container">
@@ -73,15 +81,21 @@ function App() {
               scales: {
                 r: {
                   angleLines: {
-                    display: false,
+                    display: true,
+                    color: "#b0b3b4",
                   },
                   suggestedMin: 0,
                   suggestedMax: 40,
+                  grid: {
+                    display: grid,
+                    color: "#b0b3b4",
+                  },
                 },
               },
             }}
           />
         </div>
+        {/* <RadarChart /> */}
 
         {/* Controles de parámetros */}
         <div className="slider-container container">
@@ -164,6 +178,20 @@ function App() {
               value={projectCriticality}
               onChange={(e) => setProjectCriticality(e.target.value)}
             />
+          </div>
+          <hr />
+          <div className="radar-options">
+            <label className="options-item">
+              <input
+                type="checkbox"
+                class="toggle-checkbox"
+                onChange={(e) => setGrid(e.target.checked)}
+              />
+              Grid
+              <div class="toggle-container">
+                <div class="toggle-ball"></div>
+              </div>
+            </label>
           </div>
           <hr />
           <button className="download-button" onClick={downloadChart}>
