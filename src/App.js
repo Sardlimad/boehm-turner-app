@@ -2,12 +2,33 @@ import React, { useState } from "react";
 import { Radar } from "react-chartjs-2";
 import "chart.js/auto";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { ToggleTheme } from "./components/ToggleTheme";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
-import * as echarts from "echarts";
-import RadarChart from "./components/Radar";
-import { RadarD3 } from "./components/RadarD3";
+import { Toggle } from "./components/Toggle";
+import { ToggleTheme } from "./components/ToggleTheme";
+import {
+  Box,
+  Button,
+  ChakraProvider,
+  Flex,
+  Heading,
+  Input,
+  Link,
+  Select,
+  StackDivider,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { CustomSlider } from "./components/CustomSlider";
+import theme from "./themes/theme";
+import pinkTheme from "./themes/pinkTheme";
+import Clementine from "./themes/Clementine";
+import GreenHaze from "./themes/GreenHaze";
 
 function App() {
   //Referencia al gráfico
@@ -20,21 +41,50 @@ function App() {
   const [projectDynamism, setProjectDynamism] = useState(30);
   const [projectCriticality, setProjectCriticality] = useState(10);
 
-  //Opciones del gráfico
+  const [title, setTitle] = useState("My Project");
   const [grid, setGrid] = useState(false);
+
+  const [currentTheme, setCurrentTheme] = useState(theme);
+
+  //Etiquetas del gráfico
+  const labels = [
+    "Staff Experience",
+    "Dynamism",
+    "Team Culture",
+    "Team Size",
+    "Criticality",
+  ];
+
+  //Opciones del gráfico
+  const options = {
+    scales: {
+      r: {
+        angleLines: {
+          display: true,
+          color: "#b0b3b4",
+        },
+        suggestedMin: 0,
+        suggestedMax: 40,
+        grid: {
+          display: grid,
+          color: "#b0b3b4",
+        },
+        ticks: {
+          stepSize: 10,
+          showLabelBackdrop: false,
+          textStrokeColor: "#fff",
+          textStrokeWidth: 0.6,
+        },
+      },
+    },
+  };
 
   // Data del gráfico
   const data = {
-    labels: [
-      "Staff Experience",
-      "Dynamism",
-      "Team Culture",
-      "Team Size",
-      "Criticality",
-    ],
+    labels: labels,
     datasets: [
       {
-        label: "Project Star Parameters",
+        label: title,
         data: [
           40 - staffExperience,
           40 - projectDynamism,
@@ -42,12 +92,12 @@ function App() {
           teamSize,
           projectCriticality,
         ],
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        pointBackgroundColor: "rgba(54, 162, 235, 1)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: currentTheme.colors.transparent[200],
+        borderColor: currentTheme.colors.brand[700],
+        pointBackgroundColor: currentTheme.colors.brand[100],
+        // pointBorderColor: "#fff",
+        pointHoverBackgroundColor: currentTheme.colors.brand[700],
+        pointHoverBorderColor: currentTheme.colors.brand[100],
       },
     ],
   };
@@ -62,156 +112,168 @@ function App() {
     }
   };
 
+  const handleSetTheme = (e) => {
+    console.log(e.target.value);
+    switch (e.target.value) {
+      case "pink":
+        setCurrentTheme(pinkTheme);
+        break;
+      case "blue":
+        setCurrentTheme(theme);
+        break;
+      case "clementine":
+        setCurrentTheme(Clementine);
+        break;
+      case "greenhaze":
+        setCurrentTheme(GreenHaze);
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
-    <>
-      <h1>Boehm-Turner Star Representation</h1>
-
-      {/* Cambio de tema */}
-      <ToggleTheme />
-
-      {/* <RadarD3 /> */}
-
-      <div className="super-container">
+    <ChakraProvider theme={currentTheme}>
+      <Box textAlign="center" m="15px">
+        <ToggleTheme />
+        <Heading colorScheme="brand" fontSize="2xl">
+          Boehm-Turner Star Representation
+        </Heading>
+      </Box>
+      <Flex
+        direction={["column", "row"]}
+        w={{ base: "100vw", md: "65vw" }}
+        gap={5}
+        margin={"auto"}
+        className="container"
+      >
         {/* Gráfico*/}
-        <div className="container radar-container">
-          <Radar
-            ref={chartRef}
-            data={data}
-            options={{
-              scales: {
-                r: {
-                  angleLines: {
-                    display: true,
-                    color: "#b0b3b4",
-                  },
-                  suggestedMin: 0,
-                  suggestedMax: 40,
-                  grid: {
-                    display: grid,
-                    color: "#b0b3b4",
-                  },
-                  ticks: {
-                    stepSize: 10,
-                    showLabelBackdrop: false,
-                    textStrokeColor: "#fff",
-                    textStrokeWidth: 0.6,
-                  },
-                },
-              },
-            }}
-          />
-        </div>
-        {/* <RadarChart /> */}
+        <Box
+          flex={6}
+          h={"100%"}
+          rounded="lg"
+          p="15px"
+          boxShadow={{ base: "none", md: "2xl" }}
+        >
+          <Radar ref={chartRef} data={data} options={options} />
+        </Box>
 
         {/* Controles de parámetros */}
-        <div className="slider-container container">
-          <div className="options-range">
-            <h4>Parameters</h4>
-            <label for="teamSize">
-              {/* <FA icon={faInfoCircle} />  */}
-              Team Size:
-              <span> {teamSize}</span>
-            </label>
-            <input
-              id="teamSize"
-              type="range"
-              min="1"
-              max="40"
-              value={teamSize}
-              onChange={(e) => setTeamSize(e.target.value)}
-            />
-          </div>
+        <VStack
+          flex={2}
+          justifyContent={"space-between"}
+          rounded="lg"
+          boxShadow={"2xl"}
+          p="20px"
+          colorScheme="brand"
+        >
+          <Box width={"stretch"}>
+            <Tabs variant="soft-rounded" colorScheme="brand" isFitted>
+              <TabList>
+                <Tab>Parameters</Tab>
+                <Tab>Style</Tab>
+              </TabList>
+              <TabPanels mt={2} minWidth="100%" minHeight="18vh">
+                <TabPanel m="0px" p="0px" height="100%">
+                  <VStack gap={3}>
+                    <CustomSlider
+                      label={labels[3]}
+                      value={teamSize}
+                      setValue={setTeamSize}
+                    />
 
-          <div className="options-range">
-            <label for="teamCulture">
-              {/* <FA icon={faInfoCircle} />  */}
-              Team Culture:
-              <span> {teamCulture}</span>
-            </label>
-            <input
-              id="teamCulture"
-              type="range"
-              min="1"
-              max="40"
-              value={teamCulture}
-              onChange={(e) => setTeamCulture(e.target.value)}
-            />
-          </div>
+                    <CustomSlider
+                      label={labels[2]}
+                      value={teamCulture}
+                      setValue={setTeamCulture}
+                    />
+                    <CustomSlider
+                      label={labels[0]}
+                      value={staffExperience}
+                      setValue={setStaffExperience}
+                    />
+                    <CustomSlider
+                      label={labels[1]}
+                      value={projectDynamism}
+                      setValue={setProjectDynamism}
+                    />
 
-          <div className="options-range">
-            <label for="staffExperience">
-              {/* <FA icon={faInfoCircle} />  */}
-              Staff Experience:
-              <span> {staffExperience}</span>
-            </label>
-            <input
-              id="staffExperience"
-              type="range"
-              min="1"
-              max="40"
-              value={staffExperience}
-              onChange={(e) => setStaffExperience(e.target.value)}
-            />
-          </div>
+                    <CustomSlider
+                      label={labels[4]}
+                      value={projectCriticality}
+                      setValue={setProjectCriticality}
+                    />
+                  </VStack>
+                </TabPanel>
+                <TabPanel m="0px" p="0px">
+                  <VStack
+                    spacing={3}
+                    divider={<StackDivider borderColor="gray.200" />}
+                    width={"100%"}
+                    h={"100"}
+                    // position="absolute"
+                  >
+                    <Input
+                      p={2}
+                      variant="filled"
+                      placeholder="Project Title"
+                      value={title}
+                      width="100%"
+                      onChange={(e) => setTitle(e.target.value)}
+                      onBlur={(e) =>
+                        setTitle(
+                          e.target.value.trim() !== ""
+                            ? e.target.value
+                            : "My Project"
+                        )
+                      }
+                    />
+                    <Select
+                      onChange={handleSetTheme}
+                      defaultValue="blue"
+                      variant={"unstyled"}
+                    >
+                      <option value={"pink"} key={"trendy-pink-theme"}>
+                        TrendyPink Theme
+                      </option>
+                      <option value={"blue"} key={"blue-theme"}>
+                        Blue Theme
+                      </option>
+                      <option value={"clementine"} key={"clementine-theme"}>
+                        Clementine Theme
+                      </option>
+                      <option value={"greenhaze"} key={"greenhaze-theme"}>
+                        GreenHaze Theme
+                      </option>
+                    </Select>
+                    <Toggle label="Grid" isChecked={grid} setCheck={setGrid} />
+                  </VStack>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
 
-          <div className="options-range">
-            <label for="dynamism">
-              {/* <FA icon={faInfoCircle} />  */}
-              Project Dynamism:
-              <span> {projectDynamism}</span>
-            </label>
-            <input
-              id="dynamism"
-              type="range"
-              min="1"
-              max="40"
-              value={projectDynamism}
-              onChange={(e) => setProjectDynamism(e.target.value)}
-            />
-          </div>
+          <Box width={"stretch"}>
+            <Button
+              colorScheme="blue"
+              size={{ base: "md", md: "sm" }}
+              width="stretch"
+              onClick={downloadChart}
+              margin="5px 0px"
+            >
+              <Text pr={2}>Download </Text>
+              <FA icon={faDownload} />
+            </Button>
 
-          <div className="options-range">
-            <label for="criticality">
-              {/* <FA icon={faInfoCircle} /> */}
-              Project Criticality:
-              <span> {projectCriticality}</span>
-            </label>
-            <input
-              id="criticality"
-              type="range"
-              min="1"
-              max="40"
-              value={projectCriticality}
-              onChange={(e) => setProjectCriticality(e.target.value)}
-            />
-          </div>
-          <hr />
-          <div className="radar-options">
-            <label className="options-item">
-              <input
-                type="checkbox"
-                class="toggle-checkbox"
-                onChange={(e) => setGrid(e.target.checked)}
-              />
-              Grid
-              <div class="toggle-container">
-                <div class="toggle-ball"></div>
-              </div>
-            </label>
-          </div>
-          <hr />
-          <button className="download-button" onClick={downloadChart}>
-            Download &nbsp;
-            <FA icon={faDownload} />
-          </button>
-
-          <p className="author">
-            Created by &nbsp;
-            <a href="https://github.com/sardlimad">@Sardlimad</a>
-          </p>
-        </div>
-      </div>
-    </>
+            <Text className="author" fontSize={"12px"} align="center">
+              Created by{" "}
+              <Link href="https://github.com/sardlimad">@Sardlimad</Link>
+            </Text>
+          </Box>
+        </VStack>
+      </Flex>
+    </ChakraProvider>
   );
 }
 
