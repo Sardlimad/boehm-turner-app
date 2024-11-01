@@ -1,15 +1,9 @@
-- name: Deploy to GitHub Pages
-  run: |
-    git config user.name "github-actions[bot]"
-    git config user.email "github-actions[bot]@users.noreply.github.com"
-    git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Sardlimad/boehm-turner-app.git
-    git push origin gh-pages
-
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # O el nombre de la rama principal en tu repositorio
+      - main # O el nombre de la rama principal en tu repositorio
 
 jobs:
   build-and-deploy:
@@ -22,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Cambia la versión si necesitas otra
+          node-version: "18" # Cambia la versión si necesitas otra
 
       - name: Install dependencies
         run: npm install
@@ -33,5 +27,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ACTION_DEPLOY_TOKEN }}
           publish_dir: ./build
