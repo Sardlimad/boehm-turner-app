@@ -9,13 +9,19 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import PropTypes from 'prop-types';
+import { toInteger } from "lodash";
 
 export const CustomSlider = ({ label, value, setValue, prefix, tpLabels, subfix }) => {
   const [showTooltip, setShowTooltip] = React.useState(false);
 
   const handleLabels = () => {
+
     if (tpLabels) {
-      return "casa";
+      const partition = 40 / tpLabels.length;
+
+      const i = toInteger(value / partition);
+      console.log(i);
+      return tpLabels[i];
     }
     else {
       return value;
@@ -24,7 +30,6 @@ export const CustomSlider = ({ label, value, setValue, prefix, tpLabels, subfix 
 
   return (
     <Box width={"stretch"}>
-      {console.log(handleLabels)}
       <Text mb="1px" fontSize={"14px"}>{label}</Text>
       <Slider
         colorScheme="brand"

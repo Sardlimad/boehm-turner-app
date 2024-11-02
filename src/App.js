@@ -188,6 +188,7 @@ function App() {
                       label={labels[0]}
                       value={staffExperience}
                       setValue={setStaffExperience}
+                      tpLabels={["Junior", "Mid-level", "Senior", "Expert"]}
                     />
                     <CustomSlider
                       label={labels[1]}
@@ -199,6 +200,7 @@ function App() {
                       label={labels[4]}
                       value={projectCriticality}
                       setValue={setProjectCriticality}
+                      tpLabels={["Comfort", "Funds", "Lives"]}
                     />
                   </VStack>
                 </TabPanel>
