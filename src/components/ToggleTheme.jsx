@@ -8,7 +8,7 @@ export const ToggleTheme = () => {
   return (
     <IconButton
       onClick={toggleColorMode}
-      icon={colorMode === "light" ? <FA icon={faMoon} /> : <FA icon={faSun} />}
+      icon={colorMode === "light" ? <FA icon={faMoon} color="#f1c40f" /> : <FA icon={faSun} color="#f39c12" />}
       variant="ghost"
       color="brand.500"
       size="lg"
