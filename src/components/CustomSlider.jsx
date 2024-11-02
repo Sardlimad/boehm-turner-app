@@ -8,12 +8,23 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
+import PropTypes from 'prop-types';
 
-export const CustomSlider = ({ label, value, setValue }) => {
+export const CustomSlider = ({ label, value, setValue, prefix, tpLabels, subfix }) => {
   const [showTooltip, setShowTooltip] = React.useState(false);
+
+  const handleLabels = () => {
+    if (tpLabels) {
+      return "casa";
+    }
+    else {
+      return value;
+    }
+  }
 
   return (
     <Box width={"stretch"}>
+      {console.log(handleLabels)}
       <Text mb="1px" fontSize={"14px"}>{label}</Text>
       <Slider
         colorScheme="brand"
@@ -34,7 +45,8 @@ export const CustomSlider = ({ label, value, setValue }) => {
           color="white"
           placement="top"
           isOpen={showTooltip}
-          label={`${value}%`}
+          // label={`${value}`}
+          label={handleLabels()}
         >
           <SliderThumb />
         </Tooltip>
@@ -42,3 +54,11 @@ export const CustomSlider = ({ label, value, setValue }) => {
     </Box>
   );
 };
+
+CustomSlider.propTypes = {
+  label: PropTypes.string,
+  // value: PropTypes.int,
+  prefix: PropTypes.string,
+  tpLabels: PropTypes.array,
+  subfix: PropTypes.string,
+}

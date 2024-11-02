@@ -95,7 +95,6 @@ function App() {
         backgroundColor: currentTheme.colors.transparent[200],
         borderColor: currentTheme.colors.brand[700],
         pointBackgroundColor: currentTheme.colors.brand[100],
-        // pointBorderColor: "#fff",
         pointHoverBackgroundColor: currentTheme.colors.brand[700],
         pointHoverBorderColor: currentTheme.colors.brand[100],
       },
@@ -136,7 +135,7 @@ function App() {
     <ChakraProvider theme={currentTheme}>
       <Box textAlign="center" m="15px">
         <ToggleTheme />
-        <Heading colorScheme="brand" fontSize="2xl">
+        <Heading as="h1" colorScheme="brand" fontSize="2xl">
           Boehm-Turner Star Representation
         </Heading>
       </Box>
@@ -209,23 +208,20 @@ function App() {
                     divider={<StackDivider borderColor="gray.200" />}
                     width={"100%"}
                     h={"100"}
-                    // position="absolute"
                   >
                     <Input
                       id="project_name"
                       p={2}
                       variant="filled"
                       placeholder="Project Title"
-                      value={title}
                       width="100%"
-                      onChange={(e) => setTitle(e.target.value)}
-                      onBlur={(e) =>
+                      onBlur={(e) => {
                         setTitle(
                           e.target.value.trim() !== ""
                             ? e.target.value
                             : "My Project"
-                        )
-                      }
+                        );
+                      }}
                     />
                     <Select
                       id="theme_select"
