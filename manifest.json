@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Boehm-Turner Star",
+  "name": "Boehm-Turner Start Representation using React and ChakraUI.",
   "icons": [
     {
       "src": "favicon.ico",
