@@ -113,7 +113,6 @@ function App() {
   };
 
   const handleSetTheme = (e) => {
-    console.log(e.target.value);
     switch (e.target.value) {
       case "pink":
         setCurrentTheme(pinkTheme);
@@ -159,14 +158,12 @@ function App() {
           <Radar ref={chartRef} data={data} options={options} />
         </Box>
 
-        {/* Controles de parámetros */}
         <VStack
           flex={2}
           justifyContent={"space-between"}
           rounded="lg"
           boxShadow={"2xl"}
           p="20px"
-          colorScheme="brand"
         >
           <Box width={"stretch"}>
             <Tabs variant="soft-rounded" colorScheme="brand" isFitted>
@@ -215,6 +212,7 @@ function App() {
                     // position="absolute"
                   >
                     <Input
+                      id="project_name"
                       p={2}
                       variant="filled"
                       placeholder="Project Title"
@@ -230,6 +228,7 @@ function App() {
                       }
                     />
                     <Select
+                      id="theme_select"
                       onChange={handleSetTheme}
                       defaultValue="blue"
                       variant={"unstyled"}
