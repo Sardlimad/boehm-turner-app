@@ -16,7 +16,6 @@ import {
   Link,
   Select,
   StackDivider,
-  Switch,
   Tab,
   TabList,
   TabPanel,
