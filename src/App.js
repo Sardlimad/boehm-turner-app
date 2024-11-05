@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Radar } from "react-chartjs-2";
 import "chart.js/auto";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,7 @@ import {
   Link,
   Select,
   StackDivider,
+  Switch,
   Tab,
   TabList,
   TabPanel,
@@ -29,6 +30,7 @@ import theme from "./themes/theme";
 import pinkTheme from "./themes/pinkTheme";
 import Clementine from "./themes/Clementine";
 import GreenHaze from "./themes/GreenHaze";
+import Cookies from "js-cookie";
 
 function App() {
   //Referencia al gráfico
@@ -45,6 +47,65 @@ function App() {
   const [grid, setGrid] = useState(false);
 
   const [currentTheme, setCurrentTheme] = useState(theme);
+
+  useEffect(() => {
+    const savedTheme = Cookies.get("theme");
+    if (savedTheme) {
+      switch (savedTheme) {
+        case "pink":
+          setCurrentTheme(pinkTheme);
+          break;
+
+        case "blue":
+          setCurrentTheme(theme);
+          break;
+
+        case "clementine":
+          setCurrentTheme(Clementine);
+          break;
+
+        case "greenhaze":
+          setCurrentTheme(GreenHaze);
+          break;
+
+        default:
+          setCurrentTheme(theme);
+          break;
+      }
+    }
+  }, [currentTheme]);
+
+  const downloadChart = () => {
+    const chart = chartRef.current;
+    if (chart) {
+      const link = document.createElement("a");
+      link.href = chart.toBase64Image();
+      link.download = "boehm-turner-star.png";
+      link.click();
+    }
+  };
+
+  const handleSetTheme = (e) => {
+    switch (e.target.value) {
+      case "pink":
+        setCurrentTheme(pinkTheme);
+        break;
+      case "blue":
+        setCurrentTheme(theme);
+        break;
+      case "clementine":
+        setCurrentTheme(Clementine);
+        break;
+      case "greenhaze":
+        setCurrentTheme(GreenHaze);
+        break;
+
+      default:
+        break;
+    }
+
+    Cookies.set("theme", e.target.value, { expires: 7 });
+  };
 
   //Etiquetas del gráfico
   const labels = [
@@ -99,36 +160,6 @@ function App() {
         pointHoverBorderColor: currentTheme.colors.brand[100],
       },
     ],
-  };
-
-  const downloadChart = () => {
-    const chart = chartRef.current;
-    if (chart) {
-      const link = document.createElement("a");
-      link.href = chart.toBase64Image();
-      link.download = "boehm-turner-star.png";
-      link.click();
-    }
-  };
-
-  const handleSetTheme = (e) => {
-    switch (e.target.value) {
-      case "pink":
-        setCurrentTheme(pinkTheme);
-        break;
-      case "blue":
-        setCurrentTheme(theme);
-        break;
-      case "clementine":
-        setCurrentTheme(Clementine);
-        break;
-      case "greenhaze":
-        setCurrentTheme(GreenHaze);
-        break;
-
-      default:
-        break;
-    }
   };
 
   return (
