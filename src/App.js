@@ -103,7 +103,7 @@ function App() {
         break;
     }
 
-    Cookies.set("theme", e.target.value, { expires: 7 });
+    Cookies.set("theme", e.target.value);
   };
 
   //Etiquetas del gráfico
