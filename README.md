@@ -1,6 +1,6 @@
 # Boehm-Turner App
 
-![Preview Image](/preview.png)
+![Preview Image](public/preview.png)
 
 Una aplicación interactiva para visualizar y trabajar con los parámetros del modelo **Boehm-Turner**. Ideal para equipos de desarrollo de software que buscan determinar la mejor metodología de trabajo según las características de su proyecto.
 
