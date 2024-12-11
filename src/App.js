@@ -131,6 +131,7 @@ function App() {
         },
         ticks: {
           stepSize: 10,
+          display: false,
           showLabelBackdrop: false,
           textStrokeColor: "#fff",
           textStrokeWidth: 0.6,
