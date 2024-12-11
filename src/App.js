@@ -30,6 +30,7 @@ import pinkTheme from "./themes/pinkTheme";
 import Clementine from "./themes/Clementine";
 import GreenHaze from "./themes/GreenHaze";
 import Cookies from "js-cookie";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   //Referencia al gráfico
@@ -163,145 +164,152 @@ function App() {
   };
 
   return (
-    <ChakraProvider theme={currentTheme}>
-      <Box textAlign="center" m="15px">
-        <ToggleTheme />
-        <Heading as="h1" colorScheme="brand" fontSize="2xl">
-          Boehm-Turner Star Representation
-        </Heading>
-      </Box>
-      <Flex
-        direction={["column", "row"]}
-        w={{ base: "100vw", md: "65vw" }}
-        gap={5}
-        margin={"auto"}
-        className="container"
-      >
-        {/* Gráfico*/}
-        <Box
-          flex={6}
-          h={"100%"}
-          rounded="lg"
-          p="15px"
-          boxShadow={{ base: "none", md: "2xl" }}
-        >
-          <Radar ref={chartRef} data={data} options={options} />
+    <>
+      <ChakraProvider theme={currentTheme}>
+        <Box textAlign="center" m="15px">
+          <ToggleTheme />
+          <Heading as="h1" colorScheme="brand" fontSize="2xl">
+            Boehm-Turner Star Representation
+          </Heading>
         </Box>
-
-        <VStack
-          flex={2}
-          justifyContent={"space-between"}
-          rounded="lg"
-          boxShadow={"2xl"}
-          p="20px"
+        <Flex
+          direction={["column", "row"]}
+          w={{ base: "100vw", md: "65vw" }}
+          gap={5}
+          margin={"auto"}
+          className="container"
         >
-          <Box width={"stretch"}>
-            <Tabs variant="soft-rounded" colorScheme="brand" isFitted>
-              <TabList>
-                <Tab>Parameters</Tab>
-                <Tab>Style</Tab>
-              </TabList>
-              <TabPanels mt={2} minWidth="100%" minHeight="18vh">
-                <TabPanel m="0px" p="0px" height="100%">
-                  <VStack gap={3}>
-                    <CustomSlider
-                      label={labels[3]}
-                      value={teamSize}
-                      setValue={setTeamSize}
-                    />
+          {/* Gráfico*/}
+          <Box
+            flex={6}
+            h={"100%"}
+            rounded="lg"
+            p="15px"
+            boxShadow={{ base: "none", md: "2xl" }}
+          >
+            <Radar ref={chartRef} data={data} options={options} />
+          </Box>
 
-                    <CustomSlider
-                      label={labels[2]}
-                      value={teamCulture}
-                      setValue={setTeamCulture}
-                    />
-                    <CustomSlider
-                      label={labels[0]}
-                      value={staffExperience}
-                      setValue={setStaffExperience}
-                      tpLabels={["Junior", "Mid-level", "Senior", "Expert"]}
-                    />
-                    <CustomSlider
-                      label={labels[1]}
-                      value={projectDynamism}
-                      setValue={setProjectDynamism}
-                    />
+          <VStack
+            flex={2}
+            justifyContent={"space-between"}
+            rounded="lg"
+            boxShadow={"2xl"}
+            p="20px"
+          >
+            <Box width={"stretch"}>
+              <Tabs variant="soft-rounded" colorScheme="brand" isFitted>
+                <TabList>
+                  <Tab>Parameters</Tab>
+                  <Tab>Style</Tab>
+                </TabList>
+                <TabPanels mt={2} minWidth="100%" minHeight="18vh">
+                  <TabPanel m="0px" p="0px" height="100%">
+                    <VStack gap={3}>
+                      <CustomSlider
+                        label={labels[3]}
+                        value={teamSize}
+                        setValue={setTeamSize}
+                      />
 
-                    <CustomSlider
-                      label={labels[4]}
-                      value={projectCriticality}
-                      setValue={setProjectCriticality}
-                      tpLabels={["Comfort", "Funds", "Lives"]}
-                    />
-                  </VStack>
-                </TabPanel>
-                <TabPanel m="0px" p="0px">
-                  <VStack
-                    spacing={3}
-                    divider={<StackDivider borderColor="gray.200" />}
-                    width={"100%"}
-                    h={"100"}
-                  >
-                    <Input
-                      id="project_name"
-                      p={2}
-                      variant="filled"
-                      placeholder="Project Title"
-                      width="100%"
-                      onBlur={(e) => {
-                        setTitle(
-                          e.target.value.trim() !== ""
-                            ? e.target.value
-                            : "My Project"
-                        );
-                      }}
-                    />
-                    <Select
-                      id="theme_select"
-                      onChange={handleSetTheme}
-                      defaultValue="blue"
-                      variant={"unstyled"}
+                      <CustomSlider
+                        label={labels[2]}
+                        value={teamCulture}
+                        setValue={setTeamCulture}
+                      />
+                      <CustomSlider
+                        label={labels[0]}
+                        value={staffExperience}
+                        setValue={setStaffExperience}
+                        tpLabels={["Junior", "Mid-level", "Senior", "Expert"]}
+                      />
+                      <CustomSlider
+                        label={labels[1]}
+                        value={projectDynamism}
+                        setValue={setProjectDynamism}
+                      />
+
+                      <CustomSlider
+                        label={labels[4]}
+                        value={projectCriticality}
+                        setValue={setProjectCriticality}
+                        tpLabels={["Comfort", "Funds", "Lives"]}
+                      />
+                    </VStack>
+                  </TabPanel>
+                  <TabPanel m="0px" p="0px">
+                    <VStack
+                      spacing={3}
+                      divider={<StackDivider borderColor="gray.200" />}
+                      width={"100%"}
+                      h={"100"}
                     >
-                      <option value={"pink"} key={"trendy-pink-theme"}>
-                        TrendyPink Theme
-                      </option>
-                      <option value={"blue"} key={"blue-theme"}>
-                        Blue Theme
-                      </option>
-                      <option value={"clementine"} key={"clementine-theme"}>
-                        Clementine Theme
-                      </option>
-                      <option value={"greenhaze"} key={"greenhaze-theme"}>
-                        GreenHaze Theme
-                      </option>
-                    </Select>
-                    <Toggle label="Grid" isChecked={grid} setCheck={setGrid} />
-                  </VStack>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
+                      <Input
+                        id="project_name"
+                        p={2}
+                        variant="filled"
+                        placeholder="Project Title"
+                        width="100%"
+                        onBlur={(e) => {
+                          setTitle(
+                            e.target.value.trim() !== ""
+                              ? e.target.value
+                              : "My Project"
+                          );
+                        }}
+                      />
+                      <Select
+                        id="theme_select"
+                        onChange={handleSetTheme}
+                        defaultValue="blue"
+                        variant={"unstyled"}
+                      >
+                        <option value={"pink"} key={"trendy-pink-theme"}>
+                          TrendyPink Theme
+                        </option>
+                        <option value={"blue"} key={"blue-theme"}>
+                          Blue Theme
+                        </option>
+                        <option value={"clementine"} key={"clementine-theme"}>
+                          Clementine Theme
+                        </option>
+                        <option value={"greenhaze"} key={"greenhaze-theme"}>
+                          GreenHaze Theme
+                        </option>
+                      </Select>
+                      <Toggle
+                        label="Grid"
+                        isChecked={grid}
+                        setCheck={setGrid}
+                      />
+                    </VStack>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </Box>
 
-          <Box width={"stretch"}>
-            <Button
-              colorScheme="blue"
-              size={{ base: "md", md: "sm" }}
-              width="stretch"
-              onClick={downloadChart}
-              margin="5px 0px"
-            >
-              <Text pr={2}>Download </Text>
-              <FA icon={faDownload} />
-            </Button>
+            <Box width={"stretch"}>
+              <Button
+                colorScheme="blue"
+                size={{ base: "md", md: "sm" }}
+                width="stretch"
+                onClick={downloadChart}
+                margin="5px 0px"
+              >
+                <Text pr={2}>Download </Text>
+                <FA icon={faDownload} />
+              </Button>
 
-            <Text className="author" fontSize={"12px"} align="center">
-              Created by{" "}
-              <Link href="https://github.com/sardlimad">@Sardlimad</Link>
-            </Text>
-          </Box>
-        </VStack>
-      </Flex>
-    </ChakraProvider>
+              <Text className="author" fontSize={"12px"} align="center">
+                Created by{" "}
+                <Link href="https://github.com/sardlimad">@Sardlimad</Link>
+              </Text>
+            </Box>
+          </VStack>
+        </Flex>
+      </ChakraProvider>
+      <Analytics />
+    </>
   );
 }
 
