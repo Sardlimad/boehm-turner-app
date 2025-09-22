@@ -175,8 +175,10 @@ function App() {
         <Flex
           direction={["column", "row"]}
           w={{ base: "100vw", md: "65vw" }}
+          h={{ base: "90vh", md: "90vh" }}
           gap={5}
           margin={"auto"}
+          sx={{my: {base: 0, md: 2}}}
           className="container"
         >
           {/* Gráfico*/}
@@ -186,6 +188,7 @@ function App() {
             rounded="lg"
             p="15px"
             boxShadow={{ base: "none", md: "2xl" }}
+            minHeight={{ base: "60%", md: 'unset'}}
           >
             <Radar ref={chartRef} data={data} options={options} />
           </Box>
